@@ -2,6 +2,7 @@ package World;
 
 import Entities.Body;
 import Entities.Entity;
+import Entities.MysteryBox;
 import Entities.Spaceship;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -80,6 +81,17 @@ public class Space extends javax.swing.JPanel {
             }
         } catch (IndexOutOfBoundsException e) {
 
+        }
+        
+        boolean hasMysteryBox=false;
+        for(int i=0;i<entities.size();i++){
+            if(entities.get(i) instanceof MysteryBox){
+                hasMysteryBox=true;
+            }
+        }
+        
+        if(!hasMysteryBox){
+            entities.add(MysteryBox.generateNew(this));
         }
 
     }

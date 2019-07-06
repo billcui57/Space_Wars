@@ -24,8 +24,10 @@ public class Body extends Entity {
 
     @Override
     public void update() {
+        accx = 0;
+        accy = 0;
         this.testCollide();
-        this.accDueToGravity();
+        this.updateAccDueToGravity();
 
         velx += accx;
         vely += accy;
@@ -36,7 +38,7 @@ public class Body extends Entity {
 
     @Override
     public void draw() {
-         world.g.setColor(Color.WHITE);
+        world.g.setColor(Color.WHITE);
         world.g.fillOval((int) x - WIDTH / 2, (int) y - HEIGHT / 2, WIDTH, HEIGHT);
 
     }

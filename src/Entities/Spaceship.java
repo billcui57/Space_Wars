@@ -39,10 +39,22 @@ public class Spaceship extends Entity {
     boolean canFire = false;
     double timeLastFire;
 
+    int equipedTorpedoType=3;
+
+    /**
+     * 1 Default Torpedo 2 Homing Torpedo
+     */
+
+    public void setTorpedoType(int torpedo) {
+        this.equipedTorpedoType = torpedo;
+    }
+
     @Override
     public void update() {
+        accx = 0;
+        accy = 0;
         this.testCollide();
-        this.accDueToGravity();
+        this.updateAccDueToGravity();
 
         if (this.commandedTurnLeft) {
             orientAngle -= 0.1;
@@ -72,7 +84,25 @@ public class Spaceship extends Entity {
                 torpedoVelx = Math.abs(this.velx + Math.signum(velx) * MUZZLE_VEL) * Math.cos(orientAngle);
                 torpedoVely = Math.abs(this.vely + Math.signum(vely) * MUZZLE_VEL) * Math.sin(orientAngle);
             }
-            world.addEntity(new HomingTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false,this, this.world));
+
+            /**
+             * 1 Default Torpedo
+             * 2 Homing Torpedo
+             */
+            switch (equipedTorpedoType) {
+                case 1:
+                    world.addEntity(new Torpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false, this.world));
+                    break;
+                case 2:
+                    world.addEntity(new HomingTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false, this, this.world));
+                    equipedTorpedoType=1;
+                    break;
+                case 3:
+                    world.addEntity(new ScatterTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false, this, this.world));
+                     equipedTorpedoType=1;
+                     break;
+            }
+
             canFire = false;
             timeLastFire = System.currentTimeMillis();
         }

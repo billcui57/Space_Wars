@@ -1,10 +1,13 @@
+package Entities;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities;
 
+
+import Entities.Entity;
 import World.Space;
 import java.awt.Color;
 
@@ -12,7 +15,7 @@ import java.awt.Color;
  *
  * @author billc
  */
-public class Torpedo extends Entity {
+public class Torpedo extends Entity{
 
     public Torpedo(double x, double y, double velx, double vely, double mass, boolean fixed, Space world) {
         super(x, y, velx, vely, mass, fixed, world);
@@ -25,8 +28,10 @@ public class Torpedo extends Entity {
     
     @Override
     public void update() {
+        accx = 0;
+        accy = 0;
         this.testCollide();
-        this.accDueToGravity();
+        this.updateAccDueToGravity();
 
         
         if((this.x>world.getWidth())||(this.x<0)||(this.y>world.getHeight())||(this.y<0)){

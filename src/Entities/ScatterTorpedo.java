@@ -5,7 +5,6 @@
  */
 package Entities;
 
-import Entities.Spaceship;
 import World.Space;
 import java.awt.Color;
 
@@ -13,17 +12,25 @@ import java.awt.Color;
  *
  * @author billc
  */
-public class HomingTorpedo extends Torpedo {
-
-    public HomingTorpedo(double x, double y, double velx, double vely, double mass, boolean fixed, Spaceship owner, Space world) {
+public class ScatterTorpedo extends Torpedo {
+    
+    /*behaves like a regular torpedo but once it reaches a certain proximity with the enemy it
+     will explode into several homing missiles
+    */
+    public ScatterTorpedo(double x, double y, double velx, double vely, double mass, boolean fixed,Spaceship owner, Space world) {
         super(x, y, velx, vely, mass, fixed, world);
-        this.owner = owner;
+        this.owner=owner;
+        this.WIDTH=10;
+        this.HEIGHT=10;
     }
-
+    
     Spaceship owner;
     Spaceship target;
-    double PROP_CONSTANT = 0.001;
-
+     final double DETONATION_DISTANCE=200;
+     final int PAYLOAD_NUM=10;
+     final double EXPLOSION_RADIUS=30;
+     final double EXPLOSION_VEL=0.5;
+    
     @Override
     public void update() {
         accx = 0;
@@ -31,10 +38,11 @@ public class HomingTorpedo extends Torpedo {
         this.testCollide();
         this.updateAccDueToGravity();
 
-        if ((this.x > world.getWidth()) || (this.x < 0) || (this.y > world.getHeight()) || (this.y < 0)) {
+        
+        if((this.x>world.getWidth())||(this.x<0)||(this.y>world.getHeight())||(this.y<0)){
             world.rmEntity(this);
         }
-
+        
         try {
             double minDistance = Double.MAX_VALUE;
             for (int i = 0; i < world.getEntities().size(); i++) {
@@ -45,30 +53,39 @@ public class HomingTorpedo extends Torpedo {
                     }
                 }
             }
-
             
-            double dx = target.x - this.x;
-            double dy = target.y - this.y;
-            accx+=dx * PROP_CONSTANT;
-            accy+=dy * PROP_CONSTANT;
-//
-//            velx = dx * PROP_CONSTANT;
-//            vely = dy * PROP_CONSTANT;
+            if(minDistance<DETONATION_DISTANCE){
+                double stepTheta=Math.PI/PAYLOAD_NUM;
+                for(int i=0;i<PAYLOAD_NUM;i++){
+                     world.addEntity(new HomingTorpedo(this.x+EXPLOSION_RADIUS*Math.cos(stepTheta*i),this.y+EXPLOSION_RADIUS*Math.sin(stepTheta*i),this.velx+EXPLOSION_VEL*Math.cos(stepTheta*i),this.vely+EXPLOSION_VEL*Math.sin(stepTheta*i),this.mass/PAYLOAD_NUM,false,this.owner,this.world));
+                }
+               
+                world.rmEntity(this);
+            }
+            
+            
         } catch (NullPointerException e) {
 
         }
-
+        
+        
         velx += accx;
         vely += accy;
 
         x += velx;
         y += vely;
+        
+        
     }
 
     @Override
     public void draw() {
-        world.g.setColor(Color.blue);
+        world.g.setColor(Color.MAGENTA);
         world.g.fillOval((int) x, (int) y, WIDTH, HEIGHT);
     }
 
+    
+    
+    
+    
 }
