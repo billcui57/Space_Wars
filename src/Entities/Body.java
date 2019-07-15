@@ -1,6 +1,6 @@
 package Entities;
 
-import World.Space;
+import GUI.SpacePanel;
 import Entities.Entity;
 import java.awt.Color;
 import java.awt.Point;
@@ -16,7 +16,7 @@ import java.awt.Point;
  */
 public class Body extends Entity {
 
-    public Body(double x, double y, double velx, double vely, double mass, boolean fixed, Space world) {
+    public Body(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
         this.WIDTH = 10;
         this.HEIGHT = 10;

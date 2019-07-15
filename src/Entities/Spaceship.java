@@ -1,6 +1,6 @@
 package Entities;
 
-import World.Space;
+import GUI.SpacePanel;
 import Entities.Entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -18,7 +18,7 @@ import java.awt.geom.AffineTransform;
  */
 public class Spaceship extends Entity {
 
-    public Spaceship(double x, double y, double velx, double vely, double mass, boolean fixed, Space world) {
+    public Spaceship(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
         commandedTurnLeft = false;
         commandedTurnRight = false;
@@ -101,6 +101,10 @@ public class Spaceship extends Entity {
                     world.addEntity(new ScatterTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false, this, this.world));
                      equipedTorpedoType=1;
                      break;
+                case 4:
+                    world.addEntity(new Bomb(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10,true,this, this.world));
+                    equipedTorpedoType=1;
+                    break;
             }
 
             canFire = false;

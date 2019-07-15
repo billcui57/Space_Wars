@@ -1,6 +1,6 @@
 package Entities;
 
-import World.Space;
+import GUI.SpacePanel;
 import java.awt.Point;
 import javafx.scene.shape.Circle;
 
@@ -25,10 +25,10 @@ public abstract class Entity {
     int WIDTH;
     int HEIGHT;
     final int GFIELD = 20;
-    Space world;
+    SpacePanel world;
     boolean fixed;
 
-    public Entity(double x, double y, double velx, double vely, double mass, boolean fixed, Space world) {
+    public Entity(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
         this.velx = velx;
         this.vely = vely;
         this.mass = mass;
@@ -47,7 +47,7 @@ public abstract class Entity {
     public void testCollide() {
         for (int i = 0; i < world.getEntities().size(); i++) {
             if ((!this.world.getEntities().get(i).equals(this)) && (this.getDistanceFrom(world.getEntities().get(i)) < this.WIDTH / 2 + world.getEntities().get(i).WIDTH / 2)) {
-                if (this.getClass() == this.world.getEntities().get(i).getClass()) {
+                if ((this.getClass() == this.world.getEntities().get(i).getClass()) && (this instanceof Torpedo) && (this instanceof Bomb)) {
                     this.world.rmEntity(i);
                     this.world.rmEntity(this);
                 } else {
@@ -55,7 +55,7 @@ public abstract class Entity {
                         this.world.rmEntity(i);
                     } 
                     
-                    if (this instanceof Torpedo){
+                    if (this instanceof Torpedo && !(this.world.getEntities().get(i) instanceof MysteryBox)){
                          this.world.rmEntity(i);
                     }
                 }

@@ -8,7 +8,7 @@ package Entities;
 
 
 import Entities.Entity;
-import World.Space;
+import GUI.SpacePanel;
 import java.awt.Color;
 
 /**
@@ -17,7 +17,7 @@ import java.awt.Color;
  */
 public class Torpedo extends Entity{
 
-    public Torpedo(double x, double y, double velx, double vely, double mass, boolean fixed, Space world) {
+    public Torpedo(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
         this.WIDTH = 5;
         this.HEIGHT = 5;
@@ -48,7 +48,7 @@ public class Torpedo extends Entity{
     @Override
     public void draw() {
         world.g.setColor(Color.red);
-        world.g.fillOval((int) x, (int) y, WIDTH, HEIGHT);
+        world.g.fillOval((int) x - WIDTH / 2, (int) y - HEIGHT / 2, WIDTH, HEIGHT);
     }
 
 }

@@ -5,7 +5,7 @@
  */
 package Entities;
 
-import World.Space;
+import GUI.SpacePanel;
 import java.awt.Color;
 
 /**
@@ -17,7 +17,7 @@ public class ScatterTorpedo extends Torpedo {
     /*behaves like a regular torpedo but once it reaches a certain proximity with the enemy it
      will explode into several homing missiles
     */
-    public ScatterTorpedo(double x, double y, double velx, double vely, double mass, boolean fixed,Spaceship owner, Space world) {
+    public ScatterTorpedo(double x, double y, double velx, double vely, double mass, boolean fixed,Spaceship owner, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
         this.owner=owner;
         this.WIDTH=10;
@@ -27,9 +27,9 @@ public class ScatterTorpedo extends Torpedo {
     Spaceship owner;
     Spaceship target;
      final double DETONATION_DISTANCE=200;
-     final int PAYLOAD_NUM=10;
-     final double EXPLOSION_RADIUS=30;
-     final double EXPLOSION_VEL=0.5;
+     final int PAYLOAD_NUM=20;
+     final double EXPLOSION_RADIUS=5;
+     final double EXPLOSION_VEL=2;
     
     @Override
     public void update() {
@@ -55,7 +55,7 @@ public class ScatterTorpedo extends Torpedo {
             }
             
             if(minDistance<DETONATION_DISTANCE){
-                double stepTheta=Math.PI/PAYLOAD_NUM;
+                double stepTheta=2*Math.PI/PAYLOAD_NUM;
                 for(int i=0;i<PAYLOAD_NUM;i++){
                      world.addEntity(new HomingTorpedo(this.x+EXPLOSION_RADIUS*Math.cos(stepTheta*i),this.y+EXPLOSION_RADIUS*Math.sin(stepTheta*i),this.velx+EXPLOSION_VEL*Math.cos(stepTheta*i),this.vely+EXPLOSION_VEL*Math.sin(stepTheta*i),this.mass/PAYLOAD_NUM,false,this.owner,this.world));
                 }
@@ -81,7 +81,7 @@ public class ScatterTorpedo extends Torpedo {
     @Override
     public void draw() {
         world.g.setColor(Color.MAGENTA);
-        world.g.fillOval((int) x, (int) y, WIDTH, HEIGHT);
+        world.g.fillOval((int) x - WIDTH / 2, (int) y - HEIGHT / 2, WIDTH, HEIGHT);
     }
 
     

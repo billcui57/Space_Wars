@@ -5,7 +5,7 @@
  */
 package Entities;
 
-import World.Space;
+import GUI.SpacePanel;
 import java.awt.Color;
 import java.util.Random;
 
@@ -16,7 +16,7 @@ import java.util.Random;
 public class MysteryBox extends Entity{
 
     
-    public MysteryBox(double x, double y, double velx, double vely, double mass, boolean fixed, Space world) {
+    public MysteryBox(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
         Random ran = new Random();
         
@@ -25,14 +25,14 @@ public class MysteryBox extends Entity{
         this.HEIGHT=10;
     }
     
-    public MysteryBox(double x, double y, double velx, double vely, double mass, boolean fixed, int containedTorpedo, Space world) {
+    public MysteryBox(double x, double y, double velx, double vely, double mass, boolean fixed, int containedTorpedo, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
         this.containedTorpedo=containedTorpedo;
         this.WIDTH=10;
         this.HEIGHT=10;
     }
 
-    final int NUM_NONDEFAULT_TORPEDO_TYPES=2;
+    final int NUM_NONDEFAULT_TORPEDO_TYPES=3;
     int containedTorpedo;
     /**
     * 1 Default Torpedo
@@ -59,7 +59,7 @@ public class MysteryBox extends Entity{
         System.out.println(this.x + "\t" + this.y);
     }
    
-    public static MysteryBox generateNew(Space world){
+    public static MysteryBox generateNew(SpacePanel world){
         Random ran = new Random();
         
         return new MysteryBox(10+ran.nextInt(world.getWidth())-20, 10+ran.nextInt(world.getHeight())-20, 0, 0, 10, true, world);
@@ -68,9 +68,9 @@ public class MysteryBox extends Entity{
     
     @Override
     public void draw() {
-        System.out.println("hi");
+       
         world.g.setColor(Color.green);
-        world.g.fillOval((int)this.x, (int)this.y, WIDTH, HEIGHT);
+        world.g.fillOval((int) x - WIDTH / 2, (int) y - HEIGHT / 2, WIDTH, HEIGHT);
     }
     
 }

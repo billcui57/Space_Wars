@@ -1,14 +1,15 @@
-package World;
+package GUI;
 
-
-import World.Space;
+import java.awt.CardLayout;
+import java.awt.Container;
+import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author billc
@@ -18,14 +19,39 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
+ 
+//    Container c;
+
+    public final static MainFrame MF = new MainFrame();
+ CardLayout layout;
+    
     public MainFrame() {
         initComponents();
-        space1.timer();
-        space1.t1.start();
-        space1.setFocusable(true);
+	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+	this.setSize(600, 600);
+        internalPanel.add(new MainMenuPanel(), "MAINMENU");
         
+        layout=(CardLayout)internalPanel.getLayout();
+        layout.show(internalPanel, "MAINMENU");
     }
 
+ 
+    
+    
+
+  
+    
+     
+    public void displayPanel(JPanel panel, String id){
+        internalPanel.removeAll();
+	internalPanel.add(panel, id);
+        layout.show(internalPanel, id);
+        revalidate();
+        repaint();
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,48 +61,23 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pauseButton = new javax.swing.JButton();
-        space1 = new World.Space();
+        internalPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setSize(new java.awt.Dimension(1022, 974));
 
-        pauseButton.setText("Pause");
-        pauseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pauseButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout space1Layout = new javax.swing.GroupLayout(space1);
-        space1.setLayout(space1Layout);
-        space1Layout.setHorizontalGroup(
-            space1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
-        space1Layout.setVerticalGroup(
-            space1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-        );
+        internalPanel.setPreferredSize(new java.awt.Dimension(600, 600));
+        internalPanel.setLayout(new java.awt.CardLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(space1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pauseButton, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(internalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(space1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pauseButton, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(internalPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -85,19 +86,6 @@ public class MainFrame extends javax.swing.JFrame {
     private void space1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_space1MouseReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_space1MouseReleased
-
-    
-    private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-        // TODO add your handling code here:
-        if(pauseButton.getText().equals("Pause")){
-            space1.updateBodies=false;
-            pauseButton.setText("Resume");
-        }else if(pauseButton.getText().equals("Resume")){
-             space1.updateBodies=true;
-            pauseButton.setText("Pause");
-        }
-        
-    }//GEN-LAST:event_pauseButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,10 +120,11 @@ public class MainFrame extends javax.swing.JFrame {
                 new MainFrame().setVisible(true);
             }
         });
+        
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton pauseButton;
-    private World.Space space1;
+    private javax.swing.JPanel internalPanel;
     // End of variables declaration//GEN-END:variables
 }

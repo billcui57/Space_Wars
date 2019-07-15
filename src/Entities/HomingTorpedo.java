@@ -6,7 +6,7 @@
 package Entities;
 
 import Entities.Spaceship;
-import World.Space;
+import GUI.SpacePanel;
 import java.awt.Color;
 
 /**
@@ -15,7 +15,7 @@ import java.awt.Color;
  */
 public class HomingTorpedo extends Torpedo {
 
-    public HomingTorpedo(double x, double y, double velx, double vely, double mass, boolean fixed, Spaceship owner, Space world) {
+    public HomingTorpedo(double x, double y, double velx, double vely, double mass, boolean fixed, Spaceship owner, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
         this.owner = owner;
     }
@@ -68,7 +68,7 @@ public class HomingTorpedo extends Torpedo {
     @Override
     public void draw() {
         world.g.setColor(Color.blue);
-        world.g.fillOval((int) x, (int) y, WIDTH, HEIGHT);
+        world.g.fillOval((int) x - WIDTH / 2, (int) y - HEIGHT / 2, WIDTH, HEIGHT);
     }
 
 }

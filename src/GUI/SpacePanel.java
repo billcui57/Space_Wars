@@ -1,4 +1,4 @@
-package World;
+package GUI;
 
 import Entities.Body;
 import Entities.Entity;
@@ -23,12 +23,12 @@ import javax.swing.Timer;
  *
  * @author billc
  */
-public class Space extends javax.swing.JPanel {
+public class SpacePanel extends javax.swing.JPanel {
 
     /**
      * Creates new form Space
      */
-    public Space() {
+    public SpacePanel() {
         initComponents();
 
         this.setBackground(Color.BLACK);
@@ -45,7 +45,7 @@ public class Space extends javax.swing.JPanel {
     ArrayList<Point> coords = new ArrayList<Point>();
     boolean showLines = false;
     boolean tracePaths = false;
-    boolean updateBodies = true;
+    public boolean updateBodies = true;
 
     public Graphics g;
 
@@ -206,7 +206,7 @@ public class Space extends javax.swing.JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Space.super.repaint();
+            SpacePanel.super.repaint();
 
         }
     }
