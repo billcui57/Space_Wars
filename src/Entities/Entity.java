@@ -46,6 +46,7 @@ public abstract class Entity {
 
     public void testCollide() {
         for (int i = 0; i < world.getEntities().size(); i++) {
+            System.out.println(this.world.getEntities().get(i));
             if ((!this.world.getEntities().get(i).equals(this)) && (this.getDistanceFrom(world.getEntities().get(i)) < this.WIDTH / 2 + world.getEntities().get(i).WIDTH / 2)) {
                 if ((this.getClass() == this.world.getEntities().get(i).getClass()) && (this instanceof Torpedo) && (this instanceof Bomb)) {
                     this.world.rmEntity(i);
@@ -54,7 +55,6 @@ public abstract class Entity {
                     if (this instanceof Body) {
                         this.world.rmEntity(i);
                     } 
-                    
                     if (this instanceof Torpedo && !(this.world.getEntities().get(i) instanceof MysteryBox)){
                          this.world.rmEntity(i);
                     }
@@ -68,6 +68,13 @@ public abstract class Entity {
         return new Point((int) this.x, (int) this.y);
     }
 
+    public void testIfLeaveBoundary(){
+          if((this.x>world.getWidth())||(this.x<0)||(this.y>world.getHeight())||(this.y<0)){
+            world.rmEntity(this);
+        }
+    }
+    
+    
     public void updateAccDueToGravity() {
         
         if (!fixed) {

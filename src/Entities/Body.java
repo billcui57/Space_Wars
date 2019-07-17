@@ -28,6 +28,7 @@ public class Body extends Entity {
         accy = 0;
         this.testCollide();
         this.updateAccDueToGravity();
+        this.testIfLeaveBoundary();
 
         velx += accx;
         vely += accy;

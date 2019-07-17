@@ -26,6 +26,9 @@
           <Dimension value="[600, 600]"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new GUI.SpacePanel(numPlayers)"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">

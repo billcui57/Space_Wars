@@ -2,10 +2,12 @@ package Entities;
 
 import GUI.SpacePanel;
 import Entities.Entity;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
+import java.util.Random;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,16 +20,51 @@ import java.awt.geom.AffineTransform;
  */
 public class Spaceship extends Entity {
 
-    public Spaceship(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
-        super(x, y, velx, vely, mass, fixed, world);
+    int playerNum;
+    public boolean isAI;
+    public Spaceship(double x, double y, double velx, double vely,double mass,int playerNum,boolean AI, SpacePanel world) {
+        super(x, y, velx, vely, mass, false, world);
         commandedTurnLeft = false;
         commandedTurnRight = false;
         commandedPropel = false;
+        this.isAI=AI;
         this.HEIGHT = 5;
         this.WIDTH = 5;
         orientAngle = 180;
+        this.playerNum=playerNum;
+        
+        Random ran = new Random();
+        switch(ran.nextInt(8)+1){
+            case 1:
+                tailColor=Color.BLUE;
+                break;
+            case 2:
+                tailColor=Color.CYAN;
+                break;
+            case 3:
+                tailColor=Color.GREEN;
+                break;
+            case 4:
+                tailColor=Color.MAGENTA;
+                break;
+            case 5:
+                tailColor=Color.ORANGE;
+                break;
+            case 6:
+                tailColor=Color.PINK;
+                break;
+            case 7: 
+                tailColor=Color.RED;
+                break;
+            case 8:
+                tailColor=Color.YELLOW;
+                break;
+            
+            
+        }
     }
 
+    Color tailColor;
     double MAXTHRUST = 0.05;
     public boolean commandedTurnLeft;
     public boolean commandedTurnRight;
@@ -39,12 +76,11 @@ public class Spaceship extends Entity {
     boolean canFire = false;
     double timeLastFire;
 
-    int equipedTorpedoType=3;
+    int equipedTorpedoType = 3;
 
     /**
      * 1 Default Torpedo 2 Homing Torpedo
      */
-
     public void setTorpedoType(int torpedo) {
         this.equipedTorpedoType = torpedo;
     }
@@ -55,6 +91,8 @@ public class Spaceship extends Entity {
         accy = 0;
         this.testCollide();
         this.updateAccDueToGravity();
+
+        this.testIfLeaveBoundary();
 
         if (this.commandedTurnLeft) {
             orientAngle -= 0.1;
@@ -86,24 +124,23 @@ public class Spaceship extends Entity {
             }
 
             /**
-             * 1 Default Torpedo
-             * 2 Homing Torpedo
+             * 1 Default Torpedo 2 Homing Torpedo
              */
             switch (equipedTorpedoType) {
                 case 1:
-                    world.addEntity(new Torpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false, this.world));
+                    world.addEntity(new Torpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 2, this.world));
                     break;
                 case 2:
-                    world.addEntity(new HomingTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false, this, this.world));
-                    equipedTorpedoType=1;
+                    world.addEntity(new HomingTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 2, this, this.world));
+                    equipedTorpedoType = 1;
                     break;
                 case 3:
-                    world.addEntity(new ScatterTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10, false, this, this.world));
-                     equipedTorpedoType=1;
-                     break;
+                    world.addEntity(new ScatterTorpedo(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 2, this, this.world));
+                    equipedTorpedoType = 1;
+                    break;
                 case 4:
-                    world.addEntity(new Bomb(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 10,true,this, this.world));
-                    equipedTorpedoType=1;
+                    world.addEntity(new Bomb(this.x + 20 * Math.cos(orientAngle), this.y + 20 * Math.sin(orientAngle), torpedoVelx, torpedoVely, 2, this, this.world));
+                    equipedTorpedoType = 1;
                     break;
             }
 
@@ -162,12 +199,27 @@ public class Spaceship extends Entity {
         commandedFire = false;
     }
 
+    public Color getColor(){
+        return this.tailColor;
+    }
+    
     @Override
     public void draw() {
+        
+        world.g.setColor(tailColor);
+        world.g.setStroke(new BasicStroke(3));
+        world.g.drawLine((int) x + WIDTH / 4, (int) y + HEIGHT / 4, (int) (x - WIDTH * (Math.cos(orientAngle)) + WIDTH / 4), (int) (y - WIDTH * (Math.sin(orientAngle)) + HEIGHT / 4));
         world.g.setColor(Color.WHITE);
         world.g.fillOval((int) x - WIDTH / 2, (int) y - HEIGHT / 2, WIDTH, HEIGHT);
+        world.g.setColor(tailColor);
+        if(this.isAI){
+            world.g.drawString("AI", (int)this.x, (int)this.y);
 
-        world.g.drawLine((int) x + WIDTH / 4, (int) y + HEIGHT / 4, (int) (x - WIDTH * (Math.cos(orientAngle)) + WIDTH / 4), (int) (y - WIDTH * (Math.sin(orientAngle)) + HEIGHT / 4));
+        }else{
+            world.g.drawString("Player "+Integer.toString(playerNum), (int)this.x, (int)this.y);
+
+        }
+        
     }
 
 }

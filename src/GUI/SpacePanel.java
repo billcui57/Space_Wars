@@ -5,7 +5,9 @@ import Entities.Entity;
 import Entities.MysteryBox;
 import Entities.Spaceship;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,18 +30,19 @@ public class SpacePanel extends javax.swing.JPanel {
     /**
      * Creates new form Space
      */
-    public SpacePanel() {
-        initComponents();
+    int numPlayers;
 
+    public SpacePanel(int numPlayers) {
+        initComponents();
+        this.preset = preset;
         this.setBackground(Color.BLACK);
-//        entities.add(sun);
-        entities.add(player1);
-        entities.add(player2);
+        this.validate();
+        this.numPlayers = numPlayers;
+        System.out.println(numPlayers);
 
     }
-    Body sun = new Body(400, 400, 0, 0, 20, true, this);
-    Spaceship player1 = new Spaceship(200, 200, 0, 0, 100, false, this);
-    Spaceship player2 = new Spaceship(600, 600, 0, 0, 100, false, this);
+
+    int preset = 3;
 
     ArrayList<Entity> entities = new ArrayList<Entity>();
     ArrayList<Point> coords = new ArrayList<Point>();
@@ -47,7 +50,7 @@ public class SpacePanel extends javax.swing.JPanel {
     boolean tracePaths = false;
     public boolean updateBodies = true;
 
-    public Graphics g;
+    public Graphics2D g;
 
     public ArrayList<Entity> getEntities() {
         return entities;
@@ -65,12 +68,71 @@ public class SpacePanel extends javax.swing.JPanel {
         this.entities.remove(index);
     }
 
+    boolean initialized = false;
+
+    Spaceship player1;
+    Spaceship player2;
+
     public void paintComponent(Graphics g) {
+        double INITIALRADIUS = 80;
+        double INITIALVELOCITY = 1;
+
+        g = (Graphics2D) g;
+
+      
+        if (!initialized) {
+            switch (numPlayers) {
+                case 1:
+                   
+                    player1 = new Spaceship(10, 10, 0, 0, 20, 1, false,this);
+                    player2 = new Spaceship(this.getWidth() - 10, this.getHeight() - 10, 0, 0, 20, 2,true, this);
+                    break;
+                case 2:
+                    player1 = new Spaceship(10, 10, 0, 0, 20, 1,false, this);
+                    player2 = new Spaceship(this.getWidth() - 10, this.getHeight() - 10, 0, 0, 20, 2,false, this);
+                    break;
+            }
+
+            switch (preset) {
+                //1 sun
+                case 1:
+                    entities.add(new Body(this.getWidth() / 2, this.getHeight() / 2, 0, 0, 40, true, this));
+                    break;
+                //2 suns not fixed
+                case 2:
+
+                    entities.add(new Body(this.getWidth() / 2 + INITIALRADIUS, this.getHeight() / 2, 0, INITIALVELOCITY, 20, false, this));
+                    entities.add(new Body(this.getWidth() / 2 - INITIALRADIUS, this.getHeight() / 2, 0, -INITIALVELOCITY, 20, false, this));
+                    break;
+                // 3 suns fixed
+                case 3:
+
+                    entities.add(new Body(this.getWidth() / 2, this.getHeight() / 2 - INITIALRADIUS, 0, 0, 40, true, this));
+                    entities.add(new Body(this.getWidth() / 2 - INITIALRADIUS * Math.cos(Math.PI / 6), this.getHeight() / 2 + INITIALRADIUS * Math.sin(Math.PI / 6), 0, 0, 20, true, this));
+                    entities.add(new Body(this.getWidth() / 2 + INITIALRADIUS * Math.cos(Math.PI / 6), this.getHeight() / 2 + INITIALRADIUS * Math.sin(Math.PI / 6), 0, 0, 20, true, this));
+                    break;
+
+            }
+            entities.add(player1);
+            entities.add(player2);
+       
+            initialized = true;
+
+        }
+
         super.paintComponent(g);
-        this.g = g;
+
+        this.g = (Graphics2D) g;
 
         this.requestFocus();
 
+//        g.setColor(player1.getColor());
+//        g.drawRect(0, 0, 50, 50);
+//        g.drawString("Player 1", 0, 25);
+//        
+//        g.setColor(player2.getColor());
+//        g.drawRect(this.getWidth()-50, this.getHeight()-50, this.getWidth(), this.getHeight());
+//        g.drawString("Player 2", this.getWidth()-50, this.getHeight()-25);
         try {
             for (int i = 0; i < entities.size(); i++) {
                 if (updateBodies) {
@@ -82,16 +144,39 @@ public class SpacePanel extends javax.swing.JPanel {
         } catch (IndexOutOfBoundsException e) {
 
         }
-        
-        boolean hasMysteryBox=false;
-        for(int i=0;i<entities.size();i++){
-            if(entities.get(i) instanceof MysteryBox){
-                hasMysteryBox=true;
+
+        boolean hasMysteryBox = false;
+        for (int i = 0; i < entities.size(); i++) {
+            if (entities.get(i) instanceof MysteryBox) {
+                hasMysteryBox = true;
             }
         }
-        
-        if(!hasMysteryBox){
+
+        if (!hasMysteryBox) {
             entities.add(MysteryBox.generateNew(this));
+        }
+        
+        
+        if(!entities.contains(player1)){
+            g.setColor(player2.getColor());
+            g.setFont(new Font("Big boi font",Font.BOLD,30));
+            if(player2.isAI){
+                g.drawString("AI wins!", this.getWidth()/2, this.getHeight()/2);
+            }else{
+                g.drawString("Player 2 wins!", this.getWidth()/2, this.getHeight()/2);
+            }
+            updateBodies=false;
+        }
+        
+        if(!entities.contains(player2)){
+            g.setColor(player1.getColor());
+            g.setFont(new Font("Big boi font",Font.BOLD,30));
+            if(player1.isAI){
+                g.drawString("AI wins!", this.getWidth()/2, this.getHeight()/2);
+            }else{
+                g.drawString("Player 1 wins!", this.getWidth()/2, this.getHeight()/2);
+            }
+              updateBodies=false;
         }
 
     }
@@ -199,7 +284,7 @@ public class SpacePanel extends javax.swing.JPanel {
     public Timer t1;
 
     public void timer() {
-        t1 = new Timer(20, new TimerListener());
+        t1 = new Timer(10, new TimerListener());
     }
 
     private class TimerListener implements ActionListener {

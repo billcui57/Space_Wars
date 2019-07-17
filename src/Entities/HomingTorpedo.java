@@ -15,8 +15,8 @@ import java.awt.Color;
  */
 public class HomingTorpedo extends Torpedo {
 
-    public HomingTorpedo(double x, double y, double velx, double vely, double mass, boolean fixed, Spaceship owner, SpacePanel world) {
-        super(x, y, velx, vely, mass, fixed, world);
+    public HomingTorpedo(double x, double y, double velx, double vely, double mass, Spaceship owner, SpacePanel world) {
+        super(x, y, velx, vely,mass, world);
         this.owner = owner;
     }
 
@@ -26,15 +26,7 @@ public class HomingTorpedo extends Torpedo {
 
     @Override
     public void update() {
-        accx = 0;
-        accy = 0;
-        this.testCollide();
-        this.updateAccDueToGravity();
-
-        if ((this.x > world.getWidth()) || (this.x < 0) || (this.y > world.getHeight()) || (this.y < 0)) {
-            world.rmEntity(this);
-        }
-
+      
         try {
             double minDistance = Double.MAX_VALUE;
             for (int i = 0; i < world.getEntities().size(); i++) {
@@ -58,11 +50,7 @@ public class HomingTorpedo extends Torpedo {
 
         }
 
-        velx += accx;
-        vely += accy;
-
-        x += velx;
-        y += vely;
+         super.update();
     }
 
     @Override

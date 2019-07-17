@@ -23,8 +23,8 @@ public class Bomb extends Entity {
     final double EXPLOSION_RADIUS = 30;
     final double EXPLOSION_VEL = 2;
 
-    public Bomb(double x, double y, double velx, double vely, double mass, boolean fixed, Spaceship owner, SpacePanel world) {
-        super(x, y, velx, vely, mass, fixed, world);
+    public Bomb(double x, double y, double velx, double vely, double mass,Spaceship owner, SpacePanel world) {
+        super(x, y, velx, vely, mass, false, world);
         this.WIDTH = 10;
         this.HEIGHT = 10;
         this.owner = owner;
@@ -55,7 +55,7 @@ public class Bomb extends Entity {
             if (minDistance < DETONATION_DISTANCE) {
                 double stepTheta = 2 * Math.PI / PAYLOAD_NUM;
                 for (int i = 0; i < PAYLOAD_NUM; i++) {
-                    world.addEntity(new Torpedo(this.x + EXPLOSION_RADIUS * Math.cos(stepTheta * i), this.y + EXPLOSION_RADIUS * Math.sin(stepTheta * i), this.velx + EXPLOSION_VEL * Math.cos(stepTheta * i), this.vely + EXPLOSION_VEL * Math.sin(stepTheta * i), this.mass / PAYLOAD_NUM, false, this.world));
+                    world.addEntity(new Torpedo(this.x + EXPLOSION_RADIUS * Math.cos(stepTheta * i), this.y + EXPLOSION_RADIUS * Math.sin(stepTheta * i), this.velx + EXPLOSION_VEL * Math.cos(stepTheta * i), this.vely + EXPLOSION_VEL * Math.sin(stepTheta * i), this.mass / PAYLOAD_NUM, this.world));
                 }
 
                 world.rmEntity(this);

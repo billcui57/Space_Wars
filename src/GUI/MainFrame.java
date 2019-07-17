@@ -2,6 +2,8 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
@@ -27,8 +29,13 @@ public class MainFrame extends javax.swing.JFrame {
     
     public MainFrame() {
         initComponents();
+        this.pack();
+        this.setVisible(true);
+        
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-	this.setSize(600, 600);
+        
+        setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        
         internalPanel.add(new MainMenuPanel(), "MAINMENU");
         
         layout=(CardLayout)internalPanel.getLayout();

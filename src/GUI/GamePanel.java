@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -17,9 +18,28 @@ public class GamePanel extends javax.swing.JPanel {
     /**
      * Creates new form GamePanel
      */
+  
+    int numPlayers=0;
     public GamePanel() {
+         
+
+        Object[] options ={"2 Player","AI"};
+        String selectedValue = (String)JOptionPane.showInputDialog(null,
+                "2 Player or 1 Player vs AI?", "Select Gamemode",
+                JOptionPane.QUESTION_MESSAGE, null,
+                options, options[0]);
+        
+        switch(selectedValue){
+            case "2 Player":
+                numPlayers=2;
+                break;
+            case "AI":
+                numPlayers=1;
+                break;
+                
+        }
+        System.out.println(numPlayers);
         initComponents();
-        System.out.println("asdasdasd");
         space1.timer();
         space1.t1.start();
         space1.setFocusable(true);
@@ -34,7 +54,7 @@ public class GamePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        space1 = new GUI.SpacePanel();
+        space1 = new GUI.SpacePanel(numPlayers);
         pauseButton = new javax.swing.JButton();
         quitButton = new javax.swing.JButton();
         restartButton = new javax.swing.JButton();
@@ -96,13 +116,13 @@ public class GamePanel extends javax.swing.JPanel {
     private void quitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitButtonActionPerformed
         // TODO add your handling code here:
         MainFrame topFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.displayPanel(new MainMenuPanel(),"MAINMENU");
+        topFrame.displayPanel(new MainMenuPanel(), "MAINMENU");
     }//GEN-LAST:event_quitButtonActionPerformed
 
     private void restartButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restartButtonActionPerformed
         // TODO add your handling code here:
         MainFrame topFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.displayPanel(new GamePanel(),"GAME");
+        topFrame.displayPanel(new GamePanel(), "GAME");
     }//GEN-LAST:event_restartButtonActionPerformed
 
 

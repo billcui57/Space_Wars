@@ -17,8 +17,8 @@ import java.awt.Color;
  */
 public class Torpedo extends Entity{
 
-    public Torpedo(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
-        super(x, y, velx, vely, mass, fixed, world);
+    public Torpedo(double x, double y, double velx, double vely,double mass, SpacePanel world) {
+        super(x, y, velx, vely, mass, false, world);
         this.WIDTH = 5;
         this.HEIGHT = 5;
         
@@ -34,9 +34,7 @@ public class Torpedo extends Entity{
         this.updateAccDueToGravity();
 
         
-        if((this.x>world.getWidth())||(this.x<0)||(this.y>world.getHeight())||(this.y<0)){
-            world.rmEntity(this);
-        }
+        this.testIfLeaveBoundary();
         
         velx += accx;
         vely += accy;
