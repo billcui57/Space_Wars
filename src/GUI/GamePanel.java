@@ -18,33 +18,67 @@ public class GamePanel extends javax.swing.JPanel {
     /**
      * Creates new form GamePanel
      */
-  
-    int numPlayers=0;
+    int numPlayers = 0;
+    int selectedMap = 0;
+    SpacePanel space1;
+
     public GamePanel() {
          
-
-        Object[] options ={"2 Player","AI"};
-        String selectedValue = (String)JOptionPane.showInputDialog(null,
+        Object[] options1 = {"2 Player", "AI"};
+        String selectedValue = (String) JOptionPane.showInputDialog(null,
                 "2 Player or 1 Player vs AI?", "Select Gamemode",
                 JOptionPane.QUESTION_MESSAGE, null,
-                options, options[0]);
-        
-        switch(selectedValue){
+                options1, options1[0]);
+
+        switch (selectedValue) {
             case "2 Player":
-                numPlayers=2;
+                numPlayers = 2;
                 break;
             case "AI":
-                numPlayers=1;
+                numPlayers = 1;
                 break;
-                
+
         }
-        System.out.println(numPlayers);
-        initComponents();
+
+        
+        
+        Object[] options2 = {"1 Star Fixed System", "2 Star Non-Fixed System", "3 Star Fixed System"};
+        selectedValue = (String) JOptionPane.showInputDialog(null,
+                "Select Map", "Select Map",
+                JOptionPane.QUESTION_MESSAGE, null,
+                options2, options2[0]);
+
+        switch (selectedValue) {
+            case "1 Star Fixed System":
+                selectedMap = 1;
+                break;
+            case "2 Star Non-Fixed System":
+                selectedMap = 2;
+                break;
+            case "3 Star Fixed System":
+                selectedMap = 3;
+                break;
+
+        }
+        space1 = new SpacePanel(numPlayers,selectedMap);
+        this.add(space1);
+         initComponents();
+
+        this.validate();
+
+      
+        
+        
+        
+        
         space1.timer();
         space1.t1.start();
         space1.setFocusable(true);
     }
 
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,28 +88,12 @@ public class GamePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        space1 = new GUI.SpacePanel(numPlayers);
         pauseButton = new javax.swing.JButton();
         quitButton = new javax.swing.JButton();
         restartButton = new javax.swing.JButton();
 
         setPreferredSize(new java.awt.Dimension(600, 600));
         setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.LINE_AXIS));
-
-        space1.setPreferredSize(new java.awt.Dimension(600, 600));
-
-        javax.swing.GroupLayout space1Layout = new javax.swing.GroupLayout(space1);
-        space1.setLayout(space1Layout);
-        space1Layout.setHorizontalGroup(
-            space1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        space1Layout.setVerticalGroup(
-            space1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 612, Short.MAX_VALUE)
-        );
-
-        add(space1);
 
         pauseButton.setText("Pause");
         pauseButton.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +148,5 @@ public class GamePanel extends javax.swing.JPanel {
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton quitButton;
     private javax.swing.JButton restartButton;
-    private GUI.SpacePanel space1;
     // End of variables declaration//GEN-END:variables
 }

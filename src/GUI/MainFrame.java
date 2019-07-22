@@ -29,8 +29,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     public MainFrame() {
         initComponents();
-        this.pack();
-        this.setVisible(true);
+//        this.pack();
+//        this.setVisible(true);
         
 	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         

@@ -32,17 +32,19 @@ public class SpacePanel extends javax.swing.JPanel {
      */
     int numPlayers;
 
-    public SpacePanel(int numPlayers) {
+    public SpacePanel(int numPlayers, int selectedMap) {
         initComponents();
         this.preset = preset;
         this.setBackground(Color.BLACK);
         this.validate();
         this.numPlayers = numPlayers;
-        System.out.println(numPlayers);
+        this.preset=selectedMap;
+        
+   
 
     }
 
-    int preset = 3;
+    int preset;
 
     ArrayList<Entity> entities = new ArrayList<Entity>();
     ArrayList<Point> coords = new ArrayList<Point>();
