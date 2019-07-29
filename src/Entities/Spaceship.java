@@ -22,6 +22,8 @@ public class Spaceship extends Entity {
 
     int playerNum;
     public boolean isAI;
+    
+    
     public Spaceship(double x, double y, double velx, double vely,double mass,int playerNum,boolean AI, SpacePanel world) {
         super(x, y, velx, vely, mass, false, world);
         commandedTurnLeft = false;

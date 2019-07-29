@@ -19,7 +19,7 @@ public class Bomb extends Entity {
     Spaceship owner;
     Spaceship target;
     final double DETONATION_DISTANCE = 100;
-    final int PAYLOAD_NUM = 100;
+    final int PAYLOAD_NUM = 20;
     final double EXPLOSION_RADIUS = 30;
     final double EXPLOSION_VEL = 2;
 
@@ -32,7 +32,7 @@ public class Bomb extends Entity {
 
     @Override
     public void update() {
-
+        
         this.testCollide();
         accx = 0;
         accy = 0;

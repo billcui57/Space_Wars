@@ -22,12 +22,21 @@ public abstract class Entity {
     double vely = 0;
     double accx = 0;
     double accy = 0;
-    int WIDTH;
-    int HEIGHT;
+    public int WIDTH;
+    public int HEIGHT;
     final int GFIELD = 20;
     SpacePanel world;
     boolean fixed;
 
+    /**
+     * @param x x position 
+     * @param y y position
+     * @param velx x component of velocity
+     * @param vely y component of velocity
+     * @param mass mass
+     * @param fixed fixed in space or not (subject to forces?)
+     * @param world world it is in
+     */
     public Entity(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
         this.velx = velx;
         this.vely = vely;
@@ -38,24 +47,42 @@ public abstract class Entity {
         this.world = world;
     }
 
+    /**
+     * Gets distance from another Entity
+     * @param other the other Entity
+     * @return the distance
+     */
     public double getDistanceFrom(Entity other) {
         //System.out.println(x + "\t" +other.x + "\t" +other.y+ "\t"+Math.pow(x-other.x, 2)+ "\t"+Math.pow(y-other.y, 2));
         return (Math.sqrt(Math.pow(x - other.x, 2) + Math.pow(y - other.y, 2)));
 
     }
 
+    /**
+     * Tests if two Entities collide and removes them according to the following rules:
+     * 1. If the two Entities are the same type (Spaceship, Body, etc..) they both get destroyed
+     * 2. If one Entity is a Body then the other Entity is destroyed
+     * 3. If one Entity is a Torpedo and the other is a Spaceship then the Spaceship is destroyed
+     */
     public void testCollide() {
+        
         for (int i = 0; i < world.getEntities().size(); i++) {
-            System.out.println(this.world.getEntities().get(i));
-            if ((!this.world.getEntities().get(i).equals(this)) && (this.getDistanceFrom(world.getEntities().get(i)) < this.WIDTH / 2 + world.getEntities().get(i).WIDTH / 2)) {
+//           
+//            if(this instanceof Body && !(world.getEntities().get(i) instanceof Body) && !(world.getEntities().get(i) instanceof MysteryBox)){
+//            System.out.println(this.world.getEntities().get(i) + "\t"+this.getDistanceFrom(world.getEntities().get(i)) + "\t" + (this.WIDTH / 2 + world.getEntities().get(i).WIDTH / 2));
+//            }
+            if ((!this.world.getEntities().get(i).equals(this)) && ((this.getDistanceFrom(world.getEntities().get(i)) < this.WIDTH / 2 + world.getEntities().get(i).WIDTH / 2))) {
+                
                 if ((this.getClass() == this.world.getEntities().get(i).getClass()) && (this instanceof Torpedo) && (this instanceof Bomb)) {
                     this.world.rmEntity(i);
                     this.world.rmEntity(this);
                 } else {
+                    
                     if (this instanceof Body) {
                         this.world.rmEntity(i);
+                       
                     } 
-                    if (this instanceof Torpedo && !(this.world.getEntities().get(i) instanceof MysteryBox)){
+                    if (this instanceof Torpedo && this.world.getEntities().get(i) instanceof Spaceship){
                          this.world.rmEntity(i);
                     }
                 }
@@ -92,8 +119,7 @@ public abstract class Entity {
 
                 }
             }
-            //System.out.println(x+"\t"+y+"\t"+accx + "\t" +accy);
-
+            
         }
     }
 

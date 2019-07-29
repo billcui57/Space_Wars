@@ -44,6 +44,11 @@ public class MainMenuPanel extends javax.swing.JPanel {
         add(jLabel1, new java.awt.GridBagConstraints());
 
         jButton1.setText("Tutorial");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -61,6 +66,10 @@ public class MainMenuPanel extends javax.swing.JPanel {
         add(jButton2, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Button press proceeds to GamePanel
+     * @param evt 
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         MainFrame topFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
@@ -69,6 +78,16 @@ public class MainMenuPanel extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    /**
+     * Button press proceeds to TutorialPanel
+     * @param evt 
+     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        MainFrame topFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+        topFrame.displayPanel(new TutorialPanel(), "TUTORIAL");
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

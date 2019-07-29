@@ -26,7 +26,9 @@ public class HomingTorpedo extends Torpedo {
 
     @Override
     public void update() {
-      
+        accx=0;
+        accy=0;
+        System.out.println("hi");
         try {
             double minDistance = Double.MAX_VALUE;
             for (int i = 0; i < world.getEntities().size(); i++) {
@@ -37,7 +39,8 @@ public class HomingTorpedo extends Torpedo {
                     }
                 }
             }
-
+            
+            System.out.println(target);
             
             double dx = target.x - this.x;
             double dy = target.y - this.y;

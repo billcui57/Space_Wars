@@ -28,8 +28,7 @@ public class Torpedo extends Entity{
     
     @Override
     public void update() {
-        accx = 0;
-        accy = 0;
+      
         this.testCollide();
         this.updateAccDueToGravity();
 

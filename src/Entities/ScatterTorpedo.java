@@ -34,7 +34,8 @@ public class ScatterTorpedo extends Torpedo {
     @Override
     public void update() {
        
-        
+        accx=0;
+        accy=0;
         try {
             double minDistance = Double.MAX_VALUE;
             for (int i = 0; i < world.getEntities().size(); i++) {

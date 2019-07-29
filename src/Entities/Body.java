@@ -18,8 +18,8 @@ public class Body extends Entity {
 
     public Body(double x, double y, double velx, double vely, double mass, boolean fixed, SpacePanel world) {
         super(x, y, velx, vely, mass, fixed, world);
-        this.WIDTH = 10;
-        this.HEIGHT = 10;
+        this.WIDTH = 20;
+        this.HEIGHT = 20;
     }
 
     @Override

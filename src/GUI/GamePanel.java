@@ -42,7 +42,7 @@ public class GamePanel extends javax.swing.JPanel {
 
         
         
-        Object[] options2 = {"1 Star Fixed System", "2 Star Non-Fixed System", "3 Star Fixed System"};
+        Object[] options2 = {"1 Star Fixed System", "2 Star Non-Fixed System", "3 Star Fixed System", "No Star System"};
         selectedValue = (String) JOptionPane.showInputDialog(null,
                 "Select Map", "Select Map",
                 JOptionPane.QUESTION_MESSAGE, null,
@@ -57,6 +57,9 @@ public class GamePanel extends javax.swing.JPanel {
                 break;
             case "3 Star Fixed System":
                 selectedMap = 3;
+                break;
+            case "No Star System":
+                selectedMap = 4;
                 break;
 
         }

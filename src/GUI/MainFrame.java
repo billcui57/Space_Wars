@@ -21,44 +21,33 @@ public class MainFrame extends javax.swing.JFrame {
     /**
      * Creates new form MainFrame
      */
- 
-//    Container c;
 
-    public final static MainFrame MF = new MainFrame();
- CardLayout layout;
-    
+    CardLayout layout;
+
     public MainFrame() {
         initComponents();
 //        this.pack();
 //        this.setVisible(true);
-        
-	setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        
+
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        
+
         internalPanel.add(new MainMenuPanel(), "MAINMENU");
-        
-        layout=(CardLayout)internalPanel.getLayout();
+
+        layout = (CardLayout) internalPanel.getLayout();
         layout.show(internalPanel, "MAINMENU");
     }
 
- 
-    
-    
-
-  
-    
-     
-    public void displayPanel(JPanel panel, String id){
+    public void displayPanel(JPanel panel, String id) {
         internalPanel.removeAll();
-	internalPanel.add(panel, id);
+        internalPanel.add(panel, id);
         layout.show(internalPanel, id);
         revalidate();
         repaint();
-        
+
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -127,8 +116,7 @@ public class MainFrame extends javax.swing.JFrame {
                 new MainFrame().setVisible(true);
             }
         });
-        
-       
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

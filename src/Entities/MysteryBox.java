@@ -56,7 +56,7 @@ public class MysteryBox extends Entity{
     public void update() {
         this.testCollide();
         this.updateAccDueToGravity();
-        System.out.println(this.x + "\t" + this.y);
+      
     }
    
     public static MysteryBox generateNew(SpacePanel world){
